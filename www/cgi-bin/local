@@ -1,0 +1,11 @@
+#!/bin/bash
+
+MAC=01-${QUERY_STRING}
+CFG_PATH=/srv/tftp/pxelinux.cfg
+
+echo "Content-type: text/html"
+echo
+
+rm ${CFG_PATH}/${MAC}
+ln -fs ${CFG_PATH}/local ${CFG_PATH}/${MAC}
+

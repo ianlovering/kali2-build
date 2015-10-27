@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd /opt/Veil/Veil-Evasion
+exec ./Veil-Evasion.py

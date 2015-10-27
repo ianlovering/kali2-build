@@ -1,0 +1,5 @@
+.encoding = "UTF-8"
+pref.keyboardAndMouse.vmHotKey.enabled = "FALSE"
+pref.keyboardAndMouse.vmHotKey.count = "0"
+pref.autoFit = "FALSE"
+pref.autoFitGuestToWindow = "TRUE"

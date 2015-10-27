@@ -1,0 +1,24 @@
+[global_config]
+  window_state = maximise
+  focus = system
+  borderless = True
+[keybindings]
+[profiles]
+  [[default]]
+    scrollbar_position = hidden
+    use_system_font = False
+    custom_command = tmux new-session -t main \; new-window
+    background_type = transparent
+    background_image = None
+    use_custom_command = True
+    background_darkness = 0.8
+    font = Monospace 8
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+    [[[window0]]]
+      type = Window
+      parent = ""
+[plugins]

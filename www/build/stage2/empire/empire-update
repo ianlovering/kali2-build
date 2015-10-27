@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Make sure kali not running?
+cd /opt/Empire
+git pull

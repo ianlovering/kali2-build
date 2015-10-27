@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd /opt/Veil/Veil-Ordnance
+exec ./Veil-Ordnance.py

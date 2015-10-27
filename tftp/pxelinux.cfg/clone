@@ -1,0 +1,12 @@
+# search path for the c32 support libraries (libcom32, libutil etc.)
+path debian-installer/amd64/boot-screens/
+
+label clone
+	menu label ^Clone for Native
+	menu default
+	kernel live/vmlinuz
+	append initrd=live/initrd.img boot=live components fetch=http://10.10.2.1/live/filesystem.squashfs hooks=http://10.10.2.1/build/stage3/clone.sh
+
+default clone
+prompt 0
+

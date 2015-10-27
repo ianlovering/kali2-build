@@ -1,0 +1,11 @@
+# search path for the c32 support libraries (libcom32, libutil etc.)
+path debian-installer/amd64/boot-screens/
+
+label localboot
+        menu label ^Local Boot
+        menu default
+        localboot type 0
+
+default localboot
+prompt 0
+

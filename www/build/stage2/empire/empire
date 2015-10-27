@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd /opt/Empire
+exec ./empire

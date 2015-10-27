@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Make sure kali not running?
+cd /opt/Veil
+git pull
+./Install.sh -u

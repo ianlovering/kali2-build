@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Stop network noise and make setup manual
+systemctl stop NetworkManager
+systemctl stop avahi-daemon
+timedatectl set-ntp false
+
+# Stopping network-manger misses this
+pkill dhclient
+ip addr flush dev eth0

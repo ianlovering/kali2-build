@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd /opt/Veil/Veil-Catapult
+exec ./Veil-Catapult.py

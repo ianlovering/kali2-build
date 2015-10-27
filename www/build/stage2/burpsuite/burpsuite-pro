@@ -1,0 +1,9 @@
+#!/bin/bash
+
+BURP_FOLDER=/opt/burpsuite-pro
+export JAVA_HOME=/usr/lib/jvm/java8
+export PATH=${JAVA_HOME}/bin:${PATH}
+
+cd ${BURP_FOLDER}
+BURP_JAR=$(ls -rv burpsuite_pro_v*.jar | xargs -n 1 | head -n 1)
+exec java -Xmx1024m -jar ${BURP_JAR}

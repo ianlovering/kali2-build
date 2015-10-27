@@ -1,0 +1,14 @@
+#!/bin/bash
+# Script allow metasploit to access oracle drivers post update
+
+METASPLOIT_DIR=/usr/share/metasploit-framework
+ORACLE_GEM=ruby-oci8
+
+cd ${METASPLOIT_DIR}
+
+# Add required GEM to list of metasploit GEMS
+echo "gem '${ORACLE_GEM}'" >> Gemfile
+
+# Edit bundle config
+sed -i '/^BUNDLE_DISABLE_SHARED_GEMS/d' .bundle/config
+sed -i '/^BUNDLE_FROZEN/d' .bundle/config

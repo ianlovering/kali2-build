@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd /opt/nessus/sbin
+./nessuscli update --all
+
+systemctl start nessusd

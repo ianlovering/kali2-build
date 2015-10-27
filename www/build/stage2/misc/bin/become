@@ -1,0 +1,32 @@
+#!/usr/bin/python
+import os,sys
+
+becomehome = '/home/become'
+
+total = len(sys.argv)
+newgid = 0
+newuid = 0
+
+if total < 2:
+    print "Error no arguments"
+    sys.exit()
+
+if total > 2:
+    newgid = int(sys.argv[2])
+
+newuid = int(sys.argv[1])
+
+os.chown(becomehome, newuid, newgid)
+for root, dirs, files in os.walk(becomehome):  
+    for momo in dirs:  
+        os.chown(os.path.join(root, momo), newuid, newgid)
+    for momo in files:
+        os.chown(os.path.join(root, momo), newuid, newgid)
+
+os.setgid(newgid)
+os.setuid(newuid)
+
+sys.stdout.flush()
+os.environ['HOME'] = becomehome
+os.environ['ZDOTDIR'] = becomehome
+os.execle("/usr/bin/zsh","",os.environ)
