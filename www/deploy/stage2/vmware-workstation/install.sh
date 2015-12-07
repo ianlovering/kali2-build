@@ -3,7 +3,8 @@
 wget -r -nH -np --cut-dirs=2 http://build/3rdparty/vmware-workstation/
 
 LICENSE=$(cat license)
-BUNDLE=VMware-Workstation-Full-11.1.2-2780323.x86_64.bundle
+#BUNDLE=VMware-Workstation-Full-11.1.2-2780323.x86_64.bundle
+BUNDLE=VMware-Workstation-Full-12.0.1-3160714.x86_64.bundle
 VMWARE_CONFIG=/etc/vmware/config
 
 sh ${BUNDLE} --console --eulas-agreed \
