@@ -42,7 +42,8 @@ zsh \
 nautilus-share \
 libnotify-bin \
 freerdp-x11 \
-wkhtmltopdf
+wkhtmltopdf \
+google-nexus-tools
 
 systemctl stop inetd
 systemctl disable inetd
