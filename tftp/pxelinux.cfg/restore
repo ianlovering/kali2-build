@@ -5,7 +5,7 @@ label restore_native
         menu label ^Restore to Native
 	menu default
         kernel live/vmlinuz
-        append initrd=live/initrd.img boot=live components fetch=http://192.168.148.51/live/filesystem.squashfs hooks=http://192.168.148.51/deploy/stage1/restore_setup_native.sh
+        append initrd=live/initrd.img boot=live components fetch=http://192.168.148.51/live/filesystem.squashfs hooks=http://192.168.148.51/restore_bootstrap.sh
 
 label restore_vm
         menu label ^Restore to Virtual
