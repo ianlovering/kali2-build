@@ -1,11 +1,15 @@
 # search path for the c32 support libraries (libcom32, libutil etc.)
 path debian-installer/amd64/boot-screens/
 
+label localboot
+        menu label ^Local Boot
+        menu default
+        localboot type 0
+
 label restore_native
         menu label ^Restore to Native
-	menu default
         kernel live/vmlinuz
-        append initrd=live/initrd.img boot=live components fetch=http://192.168.148.51/live/filesystem.squashfs hooks=http://192.168.148.51/restore_bootstrap.sh
+        append initrd=live/initrd.img boot=live components fetch=http://10.10.2.1/live/filesystem.squashfs hooks=http://10.10.2.1/scripts/restore_bootstrap.sh
 
 label restore_vm
         menu label ^Restore to Virtual

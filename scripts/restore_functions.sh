@@ -230,14 +230,8 @@ function umount_chroot_dynamic {
 function update_fstab {
 
 	root_mnt=$1
-	swap_dev=$2
-	boot_dev=$3
+	swap_dev=$3
 	
-	if [ ! -z $boot_dev ]; then
-    	target_boot_uuid=$(blkid $boot_dev | awk -F\" '{ print $2 }')
-	    sed -i "/\s*\/\s*ext4\s*errors=remount-ro/a UUID=$target_boot_uuid\t\/boot\text4\tnoauto\t0\t0" $root_mnt/etc/fstab
-    fi
-    
     target_swap_uuid=$(blkid $swap_dev | awk -F\" '{ print $2 }')    
     sed -i "s/UUID=.*\(\s.*none\s.*swap\)/UUID=$target_swap_uuid\1/" $root_mnt/etc/fstab
 }
@@ -258,7 +252,7 @@ function update_boot {
 	root_mnt=$1
 	root_fs=$2
 	
-	get_disk $root_fs
+	#get_disk $root_fs
 	
 	mount_chroot_dynamic ${root_mnt}
 
@@ -266,17 +260,20 @@ chroot ${root_mnt} <<EOF
 update-initramfs -u
 update-grub
 grub-install /dev/sda
+EOF
 }
 
 function setup_module_run {
 	root_mnt=$1
 	selected_profile=${2}
-	SCRIPT=restore_control.sh
+	SCRIPTS="restore_control.sh mount_share.sh"
 
-	cp ${MNT}/build/scripts/${SCRIPT} $root_mnt/root
-	chmod 755 ${root_mnt}/${SCRIPT}
+	for s in ${SCRIPTS}; do
+		cp ${s} $root_mnt/root
+		chmod 755 ${root_mnt}/root/${s}
+	done
 
-	echo "gnome-terminal -x /root/${SCRIPT} $2" >> $root_mnt/root/.profile
+	echo "gnome-terminal -x /root/restore_control.sh $2" >> $root_mnt/root/.profile
 	sed -i 's/# *AutomaticLogin/AutomaticLogin/' $root_mnt/etc/gdm3/daemon.conf
 	
 }

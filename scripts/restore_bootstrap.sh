@@ -5,17 +5,18 @@ TARGET=laptop
 cat > /root/restore_setup.sh << EOF
 #!/bin/bash
 
-MNT=/mnt
+MNT=/mnt/build
 
 wget -P /tmp/ http://build/scripts/mount_share.sh
 chmod 755 /tmp/mount_share.sh
-/tmp/mount_share.sh
+mkdir -p \${MNT}
+/tmp/mount_share.sh \${MNT}
 
-pushd \${MNT}/scripts
-./restore.sh ${TARGET}
+pushd \${MNT}/build/scripts
+./restore.sh \${MNT} ${TARGET}
 popd
 
-shutdown -r now
+#shutdown -r now
 
 EOF
 

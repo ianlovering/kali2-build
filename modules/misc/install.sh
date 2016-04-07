@@ -7,7 +7,10 @@ ls *.deb | xargs -n 1 dpkg -i
 popd
 
 pushd bin
-cp * /usr/local/bin
+for f in $(ls); do 
+	cp $f /usr/local/bin
+	chmod 555 /usr/local/bin/${f}
+done
 popd
 
 pushd desktop

@@ -10,7 +10,7 @@ ${NCLI} fix --set auto_update=no
 
 # Configure Nessus
 ${NCLI} mkcert -q
-./expect-nessus-client-cert
+expect -f expect-nessus-client-cert
 ${NCLI} fix --set force_pubkey_auth=yes
 
 CERT_DIR=/opt/nessus/var/certs/pentest

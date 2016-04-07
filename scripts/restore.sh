@@ -1,12 +1,11 @@
-#!/bin/bash
+#!/bin/bash -x
 
-MNT=${1}
+IMAGES_MNT=${1}
 BUILD=${2}
 
 NAME_PREFIX=kali2_
-IMAGES_MNT=${MNT}
 
-LVGROUP=core
+LVGROUP=main
 LVSWAP=swap
 LVROOT=root
 
@@ -15,7 +14,7 @@ CRYPT_NAME=crypt-main
 ROOT_TARGET=/mnt/root
 
 source restore_functions.sh
-source restore_config.sh
+#source restore_config.sh
 
 # select which image to install
 select_image ${IMAGES_MNT}
@@ -46,15 +45,17 @@ if [ "x${restore_type}" == "xWDN" ]; then
 	container_dev=${disk}2
 	
 	create_logical_volumes $container_dev $LVGROUP $LVSWAP $LVROOT
-	root_container=/dev/${LVGROUP}-${LVROOT}
-	swap_container=/dev/${{LVGROUP}-${LVSWAP}
+	root_container=/dev/${LVGROUP}/${LVROOT}
+	swap_container=/dev/${LVGROUP}/${LVSWAP}
 
 elif [ "x${restore_type}" == "xEF" ]; then
 	
-	select_filesystem "Select Root" "Select the root volume:"
+	#select_filesystem "Select Root" "Select the root volume:"
+	select_volume "Select Root" "Select the root volume:"
 	root_container=$result
 	
-	select_filesystem "Select Swap" "Select the swap volume:"
+	#select_filesystem "Select Swap" "Select the swap volume:"
+	select_volume "Select Swap" "Select the swap volume:"
 	swap_container=$result	
 	
 	ask_yes_no "Continue?" "The following partitions/volumes will be overwritten\n\n$root_container\n$swap_container\n"
@@ -64,7 +65,7 @@ elif [ "x${restore_type}" == "xEF" ]; then
 else
 	abort
 fi
-exit
+
 # Format swap space
 mkswap ${swap_container}
 
@@ -77,7 +78,7 @@ mkdir -p ${ROOT_TARGET}
 mount ${root_container} ${ROOT_TARGET}
 
 # Update fstab
-update_fstab ${ROOT_TARGET} ${root_container} ${swap_container}
+update_fstab ${ROOT_TARGET} ${swap_container}
 
 # If luks update crypttab
 
@@ -88,8 +89,8 @@ update_boot ${ROOT_TARGET} ${root_container}
 
 # Setup module install after reboot
 setup_module_run ${ROOT_TARGET} laptop
-shutdown -r now
-
+#shutdown -r now
+exit
 is_disk $DEV
 DISK=$result
 
