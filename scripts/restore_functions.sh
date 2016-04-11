@@ -234,6 +234,11 @@ function update_fstab {
 	
     target_swap_uuid=$(blkid $swap_dev | awk -F\" '{ print $2 }')    
     sed -i "s/UUID=.*\(\s.*none\s.*swap\)/UUID=$target_swap_uuid\1/" $root_mnt/etc/fstab
+
+    if [ $BOOT == "efi" ]; do
+        efi_uuid=$(blkid /dev/sda1 | awk -F" '{ print $2 }')
+        echo "UUID=${efi_uuid} /boot/efi auto defaults 0 0" >> /etc/fstab
+    done
 }
 
 function update_crypttab {

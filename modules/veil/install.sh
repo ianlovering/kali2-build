@@ -1,9 +1,13 @@
 #!/bin/bash
 
+FIX_SETUP=$(pwd)/fix-veil-setup.sh
+chmod 755 ${FIX_SETUP}
+
 pushd /opt
 git clone https://github.com/Veil-Framework/Veil.git
 pushd Veil
-sed -i 's!Veil-Evasion/setup \&\& \./setup\.sh!Veil-Evasion/setup \&\& \./setup\.sh -s!' Install.sh
+sed -i "s!Veil-Evasion/setup \&\& \./setup\.sh!Veil-Evasion/setup \&\& ${FIX_SETUP} \&\& \./setup\.sh -s!" Install.sh
+
 yes | ./Install.sh -c
 
 popd

@@ -12,7 +12,7 @@ SMB_SHARE=//build/images
 SMB_USER=clonewrite
 SMB_PASS=clonewrite
 
-IMG_NAME=kali2_\$(date +%Y-%m-%d_%H:%M:%S).gz
+IMG_NAME=kali-rolling_\$(date +%Y-%m-%d_%H:%M:%S).gz
 
 mount \$PART \$MNT
 pushd \${MNT}/boot/grub
@@ -31,11 +31,11 @@ e2fsck -f -y \${PART}
 resize2fs -M \${PART}
 partclone.ext4 -c -s \${PART} | gzip > \${MNT}/\${IMG_NAME}
 
-umount \${MNT}
+#umount \${MNT}
 
 # Wipe partition table so will pxe boot next time?
 
-shutdown now
+#shutdown now
 EOF
 
 chmod 755 /root/clone.sh

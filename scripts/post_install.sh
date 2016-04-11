@@ -2,7 +2,7 @@
 
 SCRIPTS="build_control.sh mount_share.sh"
 
-echo "gnome-terminal -x /root/build_control.sh" >> /root/.profile
+echo "tmux new-session -d -n \"Install Modules\" /root/build_control.sh" >> /root/.profile
 sed -i 's/# *AutomaticLogin/AutomaticLogin/' /etc/gdm3/daemon.conf
 
 cd /root

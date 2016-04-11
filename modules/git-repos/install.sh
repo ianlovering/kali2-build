@@ -10,3 +10,7 @@ git clone https://github.com/offensive-security/exploit-database-bin-sploits.git
 
 popd
 
+mkdir -p /etc/update-all/update-scripts.d
+cp git-repos-update /etc/update-all/update-scripts.d/git-repos
+chmod 555 /etc/update-all/update-scripts.d/git-repos
+

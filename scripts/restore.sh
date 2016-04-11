@@ -1,9 +1,11 @@
 #!/bin/bash -x
 
+[ -d /sys/firmware/efi ] && BOOT=efi || BOOT=bios
+
 IMAGES_MNT=${1}
 BUILD=${2}
 
-NAME_PREFIX=kali2_
+NAME_PREFIX=kali-rolling_
 
 LVGROUP=main
 LVSWAP=swap
