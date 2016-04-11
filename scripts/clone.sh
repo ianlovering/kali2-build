@@ -31,11 +31,11 @@ e2fsck -f -y \${PART}
 resize2fs -M \${PART}
 partclone.ext4 -c -s \${PART} | gzip > \${MNT}/\${IMG_NAME}
 
-#umount \${MNT}
+umount \${MNT}
 
 # Wipe partition table so will pxe boot next time?
 
-#shutdown now
+shutdown now
 EOF
 
 chmod 755 /root/clone.sh
