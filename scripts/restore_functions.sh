@@ -232,13 +232,13 @@ function update_fstab {
 	root_mnt=$1
 	swap_dev=$3
 	
-    target_swap_uuid=$(blkid $swap_dev | awk -F\" '{ print $2 }')    
-    sed -i "s/UUID=.*\(\s.*none\s.*swap\)/UUID=$target_swap_uuid\1/" $root_mnt/etc/fstab
+    #target_swap_uuid=$(blkid $swap_dev | awk -F\" '{ print $2 }')    
+    sed -i "/UUID=.*\(\s.*none\s.*swap\)/d" $root_mnt/etc/fstab
 
-    if [ $BOOT == "efi" ]; do
-        efi_uuid=$(blkid /dev/sda1 | awk -F" '{ print $2 }')
+    if [ "${BOOT}" == "efi" ]; then
+        efi_uuid=$(blkid /dev/sda1 | awk -F\" '{ print $2 }')
         echo "UUID=${efi_uuid} /boot/efi auto defaults 0 0" >> /etc/fstab
-    done
+    fi
 }
 
 function update_crypttab {
@@ -272,13 +272,13 @@ function setup_module_run {
 	root_mnt=$1
 	selected_profile=${2}
 	SCRIPTS="restore_control.sh mount_share.sh"
-
+        
 	for s in ${SCRIPTS}; do
-		cp ${s} $root_mnt/root
-		chmod 755 ${root_mnt}/root/${s}
-	done
-
-	echo "gnome-terminal -x /root/restore_control.sh $2" >> $root_mnt/root/.profile
+	    cp ${s} $root_mnt/root
+	    chmod 755 ${root_mnt}/root/${s}
+	done   
+         
+	echo "tmux new-session -d -n \"Install Modules\" /root/restore_control.sh ${selected_profile}" >> $root_mnt/root/.profile
 	sed -i 's/# *AutomaticLogin/AutomaticLogin/' $root_mnt/etc/gdm3/daemon.conf
-	
 }
+

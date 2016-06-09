@@ -2,7 +2,7 @@
 
 UPDATE_SCRIPTS=/etc/update-all/update-scripts.d
 LOG_DIR=/var/log/update-all
-TMUX_SESSION=main
+TMUX_SESSION=update-all
 
 # Run each individual update script
     # Nessus
@@ -16,10 +16,15 @@ if [ ! -d "${LOG_DIR}" ]; then
 fi
 	
 echo "Starting update..."
+unset TMUX
 tmux has-session -t ${TMUX_SESSION} || tmux new-session -d -s ${TMUX_SESSION}
 
 for update_script in ${UPDATE_SCRIPTS}/*; do
     base=$(basename ${update_script})
     echo -e "\tStarting ${base} update..."
     tmux new-window -t ${TMUX_SESSION} -n ${base} "script -c ${update_script} ${LOG_DIR}/${base}.log"
+done
+
+while [[ $(tmux list-windows -t $TMUX_SESSION | wc -l) -gt 1 ]]; do
+    sleep 10
 done

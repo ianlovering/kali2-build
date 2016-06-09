@@ -10,7 +10,6 @@ chmod 555 /etc/apt/apt.conf.d/99metasploit-oci8
 systemctl enable postgresql
 systemctl start postgresql
 msfdb init
-systemctl stop postgresql
 
 gem install ruby-oci8
 /usr/local/sbin/metasploit-post-update

@@ -20,6 +20,4 @@ popd
 mkdir -p /root/.gconf/apps/gksu
 cp config/gksu-gconf.xml /root/.gconf/apps/gksu/%gconf.xml
 
-tar xf config/wireshark.tar.gz /root/
-
 mkdir -p /home/become

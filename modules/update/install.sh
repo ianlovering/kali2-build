@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cp update-all /usr/local/bin
-chmod 555 /usr/local/bin/update-all
+cp update-all /usr/local/sbin
+chmod 555 /usr/local/sbin/update-all

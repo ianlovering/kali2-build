@@ -7,6 +7,7 @@ cat > /root/clone.sh << EOF
 
 PART=/dev/sda1
 MNT=/mnt
+IMAGE_FOLDER=images
 
 SMB_SHARE=//build/images
 SMB_USER=clonewrite
@@ -29,7 +30,7 @@ done
 
 e2fsck -f -y \${PART}
 resize2fs -M \${PART}
-partclone.ext4 -c -s \${PART} | gzip > \${MNT}/\${IMG_NAME}
+partclone.ext4 -c -s \${PART} | gzip > \${MNT}/\${IMAGE_FOLDER}/\${IMG_NAME}
 
 umount \${MNT}
 

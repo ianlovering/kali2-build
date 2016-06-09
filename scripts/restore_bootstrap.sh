@@ -1,6 +1,9 @@
 #!/bin/bash
 
-TARGET=laptop
+TARGET=$(cat /proc/cmdline | sed -e 's/^.*restoretype=//' -e 's/ .*$//')
+if [ -z ${TARGET} ]; then
+    TARGET=laptop
+fi
 
 cat > /root/restore_setup.sh << EOF
 #!/bin/bash
@@ -16,7 +19,7 @@ pushd \${MNT}/build/scripts
 ./restore.sh \${MNT} ${TARGET}
 popd
 
-#shutdown -r now
+shutdown -r now
 
 EOF
 

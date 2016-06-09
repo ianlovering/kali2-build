@@ -1,4 +1,6 @@
 #!/bin/bash
 
+DEBIAN_PRIORITY=critical
+
 apt-get update
 apt-get -y dist-upgrade

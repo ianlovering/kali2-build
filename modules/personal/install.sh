@@ -4,6 +4,54 @@
 echo 'astral-stalker' > /etc/hostname
 sed -i 's/kali/astral-stalker/' /etc/hosts
 
+THIRD=${1}/personal
+
+# Install my git-repos
+TOOLS_DIR=/root/Tools
+DOCS_DIR=/root/Documents
+
+export GIT_SSL_NO_VERIFY=true
+
+pushd /root
+expect -f ${THIRD}/expect-git-documents
+expect -f ${THIRD}/expect-git-root-settings
+#expect -f ${THIRD}/expect-git-chrome-settings
+
+pushd ${TOOLS_DIR}
+expect -f ${THIRD}/expect-git-tools
+pushd Tools
+git config http.sslVerify "false"
+popd
+popd
+
+pushd ${DOCS_DIR}
+git config http.sslVerify "false"
+popd
+
+# link settings files
+ROOT_SETTINGS=/root/.mysettings
+
+# install extra packages
+KALI_PACKAGES=${ROOT_SETTINGS}/kali-packages.txt
+if [ -s ${KALI_PACKAGES} ]; then
+    DEBIAN_PRIORITY=critical
+    apt-get update
+    apt-get -y install $(< ${KALI_PACKAGES})
+fi
+
+ln -s ${ROOT_SETTINGS}/tmux.conf .tmux.conf
+
+mkdir -p .config/terminator
+mkdir .msf4
+mkdir .java
+
+ln -s ${ROOT_SETTINGS}/terminator-config .config/terminator/config
+ln -s ${ROOT_SETTINGS}/msf-config .msf4/config
+ln -s ${ROOT_SETTINGS}/gitconfig .gitconfig
+ln -s ${ROOT_SETTINGS}/burp .java/burp
+
+popd
+
 # Set up zsh theme
 THEMES_FOLDER=/opt/oh-my-zsh/custom/themes
 
@@ -12,18 +60,7 @@ cp ian.zsh-theme ${THEMES_FOLDER}
 
 sed -i 's/ZSH_THEME="clean"/ZSH_THEME="ian"/' ${HOME}/.zshrc
 
-cp tmux.conf ${HOME}/.tmux.conf
 echo "tmux has-session -t main || tmux new-session -d -s main" >> ${HOME}/.profile
-
-mkdir -p ${HOME}/.config/terminator
-cp terminator-config ${HOME}/.config/terminator/config
-
-# Metasploit config
-mkdir -p /root/.msf5
-cp msf-config /root/.msf5/config
-
-# Git Config
-cp gitconfig /root/.gitconfig
 
 # Become Settings
 cp /root/.zshrc /home/become

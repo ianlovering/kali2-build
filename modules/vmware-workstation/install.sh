@@ -4,7 +4,7 @@ WDIR=/tmp/vmware
 INSTALL=${1}/vmware-workstation
 
 LICENSE=$(cat ${INSTALL}/license)
-BUNDLE=${INSTALL}/VMware-Workstation-Full-12.0.1-3160714.x86_64.bundle
+BUNDLE=${INSTALL}/VMware-Workstation-Full-12.1.1-3770994.x86_64.bundle
 VMWARE_CONFIG=/etc/vmware/config
 
 mkdir -p ${WDIR}
@@ -27,3 +27,8 @@ popd
 PREFS_FOLDER=/root/.vmware/
 mkdir -p ${PREFS_FOLDER} 
 cp preferences ${PREFS_FOLDER}
+
+# Build modules
+sed -i 's/VMCI_CONFED = "yes"/VMCI_CONFED = "no"/' /etc/vmware/config
+/usr/local/bin/vmware-modconfig --console --install-all
+

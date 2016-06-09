@@ -3,14 +3,12 @@ openssl
 wine
 java
 oracle-instantclient
-ms-sql
 oh-my-zsh
 chrome
 veil
 empire
 macroshop
 unicorn
-sslyze
 burpsuite
 nessus
 metasploit
@@ -20,3 +18,4 @@ ophcrack_tables
 misc
 update
 git-repos
+personal

@@ -2,7 +2,7 @@
 Name=burpsuite pro
 Encoding=UTF-8
 Exec=/usr/local/bin/burpsuite-pro
-Icon=burpsuite.png
+Icon=kali-burpsuite.png
 StartupNotify=false
 Terminal=false
 Type=Application

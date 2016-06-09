@@ -9,12 +9,12 @@ label localboot
 label restore_native
         menu label ^Restore to Native
         kernel live/vmlinuz
-        append initrd=live/initrd.img boot=live components fetch=http://10.10.2.1/live/filesystem.squashfs hooks=http://10.10.2.1/scripts/restore_bootstrap.sh
+        append initrd=live/initrd.img boot=live components noautologin fetch=http://192.168.148.51/live/filesystem.squashfs hooks=http://192.168.148.51/scripts/restore_bootstrap.sh restoretype=laptop
 
 label restore_vm
         menu label ^Restore to Virtual
         kernel live/vmlinuz
-        append initrd=live/initrd.img boot=live components fetch=http://192.168.148.51/live/filesystem.squashfs hooks=http://192.168.148.51/deploy/stage1/restore_setup_vm.sh
+        append initrd=live/initrd.img boot=live components noautologin fetch=http://192.168.148.51/live/filesystem.squashfs hooks=http://192.168.148.51/scripts/restore_bootstrap.sh restoretype=vmware
 
 default debian-installer/amd64/boot-screens/vesamenu.c32
 prompt 0

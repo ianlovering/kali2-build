@@ -5,8 +5,8 @@ function installjava {
 	local_java_name=${1}
 	local_java_jinfo=.${local_java_name}.jinfo
 
-	local_openjdk_name=java-1.7.0-openjdk-amd64
-	local_openjdk_name2=java-7-openjdk-amd64
+	local_openjdk_name=java-1.8.0-openjdk-amd64
+	local_openjdk_name2=java-8-openjdk-amd64
 	local_openjdk_jinfo=.${local_openjdk_name}.jinfo
 	
 	pushd /usr/lib/jvm	

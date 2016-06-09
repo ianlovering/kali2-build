@@ -19,4 +19,4 @@ sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="clean"/' ${HOME}/.zshrc
 
 chsh -s /bin/zsh
 
-popd ${WDIR}
+popd

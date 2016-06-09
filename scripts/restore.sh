@@ -14,12 +14,13 @@ LVROOT=root
 CRYPT_NAME=crypt-main
 
 ROOT_TARGET=/mnt/root
+IMAGE_FOLDER=images
 
 source restore_functions.sh
 #source restore_config.sh
 
 # select which image to install
-select_image ${IMAGES_MNT}
+select_image ${IMAGES_MNT}/${IMAGE_FOLDER}
 IMAGE_FILE=$result
 
 # select profile
@@ -72,7 +73,7 @@ fi
 mkswap ${swap_container}
 
 # clone build image onto root
-gunzip -c ${IMAGES_MNT}/${IMAGE_FILE} | partclone.ext4 -r -o ${root_container}
+gunzip -c ${IMAGES_MNT}/${IMAGE_FOLDER}/${IMAGE_FILE} | partclone.ext4 -r -o ${root_container}
 resize2fs ${root_container}
 
 # Mount root
@@ -91,7 +92,7 @@ update_boot ${ROOT_TARGET} ${root_container}
 
 # Setup module install after reboot
 setup_module_run ${ROOT_TARGET} laptop
-#shutdown -r now
+shutdown -r now
 exit
 is_disk $DEV
 DISK=$result

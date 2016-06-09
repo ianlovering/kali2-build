@@ -18,7 +18,7 @@ for launcher in veil-evasion veil-pillage veil-catapult veil-ordnance; do
 	chmod 555 /usr/local/bin/${launcher}
 done
 
-apt-get -y install python-psycopg2
+#apt-get -y install python-psycopg2
 
 mkdir -p /etc/update-all/update-scripts.d
 cp veil-update /etc/update-all/update-scripts.d/veil
