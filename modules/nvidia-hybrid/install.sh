@@ -1,5 +1,5 @@
 #!/bin/bash
 
 apt-get update
-apt-get -y install bumblebee-nvidia nvidia-cuda-toolkit
+apt-get -yq install bumblebee-nvidia nvidia-cuda-toolkit
 

@@ -30,7 +30,7 @@ IMAGE_FILE=$result
 select_restore_type
 restore_type=$result
 
-if [ "x${restore_type}" == "xWDN" ]; then
+if [ "x${restore_type}" == "xWDN" ] || [ "x${restore_type}" == "xWDL" ]; then
 
 	# select the disk
 	select_disk
@@ -45,8 +45,18 @@ if [ "x${restore_type}" == "xWDN" ]; then
 	partition_disk $disk
 	
 	# setup luks encryption if required
-	container_dev=${disk}2
-	
+	if [ "x${restore_type}" == "xWDL" ]; then
+
+		KEY=$(apg -n 1 -m 12 -x 12 -M LN)
+		CRYPT_CONTAINER=${disk}2
+		create_crypt ${CRYPT_CONTAINER} $KEY
+		open_crypt ${CRYPT_CONTAINER} $KEY $CRYPT_NAME
+		container_dev=/dev/mapper/${CRYPT_NAME}
+
+	else
+		container_dev=${disk}2
+	fi	
+
 	create_logical_volumes $container_dev $LVGROUP $LVSWAP $LVROOT
 	root_container=/dev/${LVGROUP}/${LVROOT}
 	swap_container=/dev/${LVGROUP}/${LVSWAP}
@@ -75,6 +85,7 @@ mkswap ${swap_container}
 # clone build image onto root
 gunzip -c ${IMAGES_MNT}/${IMAGE_FOLDER}/${IMAGE_FILE} | partclone.ext4 -r -o ${root_container}
 resize2fs ${root_container}
+fsck -y ${root_container}
 
 # Mount root
 mkdir -p ${ROOT_TARGET}
@@ -84,15 +95,21 @@ mount ${root_container} ${ROOT_TARGET}
 update_fstab ${ROOT_TARGET} ${swap_container}
 
 # If luks update crypttab
+if [ "x${restore_type}" == "xWDL" ]; then
+	update_crypttab ${ROOT_TARGET} ${CRYPT_CONTAINER} ${CRYPT_NAME}
+fi
 
 # Update boot system
 update_boot ${ROOT_TARGET} ${root_container}
 
 # If WDL or WDS show new encryption password
+if [ ! -z $KEY ]; then
+	show_message "Encryption Key" "\n${KEY}\n"
+fi
 
 # Setup module install after reboot
-setup_module_run ${ROOT_TARGET} laptop
-shutdown -r now
+setup_module_run ${ROOT_TARGET} ${BUILD}
+#shutdown -r now
 exit
 is_disk $DEV
 DISK=$result

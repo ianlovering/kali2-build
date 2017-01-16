@@ -30,25 +30,31 @@ popd
 
 # link settings files
 ROOT_SETTINGS=/root/.mysettings
+pushd ${ROOT_SETTINGS}
+git config http.sslVerify "false"
+popd
 
 # install extra packages
 KALI_PACKAGES=${ROOT_SETTINGS}/kali-packages.txt
 if [ -s ${KALI_PACKAGES} ]; then
     DEBIAN_PRIORITY=critical
-    apt-get update
-    apt-get -y install $(< ${KALI_PACKAGES})
+    apt-get -q update
+    apt-get -yq install $(< ${KALI_PACKAGES})
 fi
 
 ln -s ${ROOT_SETTINGS}/tmux.conf .tmux.conf
 
 mkdir -p .config/terminator
 mkdir .msf4
-mkdir .java
+mkdir -p .java/.userPrefs
 
 ln -s ${ROOT_SETTINGS}/terminator-config .config/terminator/config
 ln -s ${ROOT_SETTINGS}/msf-config .msf4/config
 ln -s ${ROOT_SETTINGS}/gitconfig .gitconfig
-ln -s ${ROOT_SETTINGS}/burp .java/burp
+ln -s ${ROOT_SETTINGS}/burp .java/.userPrefs/burp
+rm /opt/nessus/var/nessus/master.key /opt/nessus/var/nessus/global.db /opt/nessus/etc/nessus/nessus-fetch.db
+ln -s ${ROOT_SETTINGS}/nessus/master.key /opt/nessus/var/nessus/master.key
+ln -s ${ROOT_SETTINGS}/nessus/nessus-fetch.db /opt/nessus/etc/nessus/nessus-fetch.db
 
 popd
 
@@ -97,5 +103,5 @@ gsettings set org.gnome.gedit.preferences.editor editor-font 'Monospace 10'
 gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
 
 # Set favourites
-gsettings set org.gnome.shell favorite-apps "['terminator.desktop', 'org.gnome.gedit.desktop', 'iceweasel.desktop', 'google-chrome.desktop', 'kali-burpsuite-pro.desktop', 'kali-wireshark.desktop', 'org.gnome.Nautilus.desktop', 'shutter.desktop', 'vmware-workstation.desktop', 'quiet.desktop']"
+gsettings set org.gnome.shell favorite-apps "['terminator.desktop', 'org.gnome.gedit.desktop', 'firefox-esr.desktop', 'google-chrome.desktop', 'kali-burpsuite-pro.desktop', 'kali-wireshark.desktop', 'org.gnome.Nautilus.desktop', 'shutter.desktop', 'vmware-workstation.desktop', 'quiet.desktop']"
 

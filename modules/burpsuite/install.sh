@@ -3,7 +3,7 @@
 INSTALL=${1}/burpsuite
 
 BURP_DIR=/opt/burpsuite-pro
-BURP_JAR=burpsuite_pro_v1.6.25.jar
+BURP_JAR=burpsuite_pro_v1.7.06.jar
 JYTHON=jython-standalone-2.7.0.jar
 JRUBY=jruby-complete-9.0.0.0.jar
 KIT=BurpKit-v1.01-pre.jar

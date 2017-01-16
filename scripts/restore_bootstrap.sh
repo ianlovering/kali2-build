@@ -19,7 +19,7 @@ pushd \${MNT}/build/scripts
 ./restore.sh \${MNT} ${TARGET}
 popd
 
-shutdown -r now
+#shutdown -r now
 
 EOF
 

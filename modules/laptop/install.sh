@@ -4,5 +4,5 @@
 sed -i 's/#HandleLidSwitch.*$/HandleLidSwitch=lock/' /etc/systemd/logind.conf
 
 # install wifi drivers
-apt-get -y install firmware-iwlwifi
+apt-get -yq install firmware-iwlwifi
 

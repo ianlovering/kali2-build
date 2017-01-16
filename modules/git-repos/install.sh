@@ -7,6 +7,8 @@ pushd ${TOOLS_DIR}
 
 git clone https://github.com/mattifestation/PowerSploit.git
 git clone https://github.com/offensive-security/exploit-database-bin-sploits.git
+git clone https://github.com/ianlovering/pentest-scripts.git
+git clone https://github.com/tenable/nessrest.git
 
 popd
 

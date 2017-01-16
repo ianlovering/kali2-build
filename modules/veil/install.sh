@@ -1,7 +1,6 @@
 #!/bin/bash
 
 FIX_SETUP=$(pwd)/fix-veil-setup.sh
-chmod 755 ${FIX_SETUP}
 
 pushd /opt
 git clone https://github.com/Veil-Framework/Veil.git

@@ -5,7 +5,7 @@
 cat > /root/clone.sh << EOF
 #!/bin/bash
 
-PART=/dev/sda1
+PART=/dev/sda2
 MNT=/mnt
 IMAGE_FOLDER=images
 

@@ -160,12 +160,22 @@ function is_disk {
 function partition_disk {
 
 	target_disk=$1
+
+	vgchange -an
 	sgdisk -Z $target_disk
-    sgdisk \
-        -n 1:0:+2M -t 1:EF02 -c 1:"BIOS Boot" \
-        -n 2:0:0 -c 2:"Main" \
-        $target_disk
-    sfdisk -A1 $target_disk
+
+	if [ "x${BOOT}" == "xefi" ]; then
+		sgdisk \
+			-n 1:0:+500M -t 1:EF00 -c 1:"EFI Boot" \
+			-n 2:0:0 -c 2:"Main" \
+			$target_disk
+	else
+		sgdisk \
+			-n 1:0:+2M -t 1:EF02 -c 1:"BIOS Boot" \
+			-n 2:0:0 -c 2:"Main" \
+			$target_disk
+	fi
+	partprobe
 }
 
 function partition_disk_nocrypt {
@@ -230,15 +240,11 @@ function umount_chroot_dynamic {
 function update_fstab {
 
 	root_mnt=$1
-	swap_dev=$3
+	swap_dev=$2
 	
-    #target_swap_uuid=$(blkid $swap_dev | awk -F\" '{ print $2 }')    
-    sed -i "/UUID=.*\(\s.*none\s.*swap\)/d" $root_mnt/etc/fstab
+    target_swap_uuid=$(blkid $swap_dev | awk -F\" '{ print $2 }')    
+    sed -i "/UUID=.*\(\s*none\s*swap\)/UUID=${target_swap_uuid}\1/" $root_mnt/etc/fstab
 
-    if [ "${BOOT}" == "efi" ]; then
-        efi_uuid=$(blkid /dev/sda1 | awk -F\" '{ print $2 }')
-        echo "UUID=${efi_uuid} /boot/efi auto defaults 0 0" >> /etc/fstab
-    fi
 }
 
 function update_crypttab {
@@ -248,8 +254,9 @@ function update_crypttab {
 	crypt_name=$3
 	
     target_encrypt_uuid=$(blkid $crypt_dev | awk -F\" '{ print $2 }')
-    
     echo -e "${crypt_name}\tUUID=${target_encrypt_uuid}\tnone\tluks" > $root_mnt/etc/crypttab
+
+    echo "GRUB_ENABLE_CRYPTODISK=y" >> /etc/default/grub
 }
 
 function update_boot {
@@ -261,11 +268,23 @@ function update_boot {
 	
 	mount_chroot_dynamic ${root_mnt}
 
+	if [ "x${BOOT}" == "xefi" ]; then
+		mount --bind /sys/firmware/efi/efivars ${root_mnt}/sys/firmware/efi/efivars
+
+chroot ${root_mnt} <<EOF
+mkfs.vfat -F32 /dev/sda1
+EOF
+		mount /dev/sda1 ${root_mnt}/boot/efi
+        	efi_uuid=$(blkid /dev/sda1 | awk -F\" '{ print $2 }')
+        	sed -i "/UUID=.*\(\s*\/boot\/efi\)/UUID=${efi_uuid}\1/" $root_mnt/etc/fstab
+	fi
+
 chroot ${root_mnt} <<EOF
 update-initramfs -u
 update-grub
-grub-install /dev/sda
+grub-install --force-extra-removable /dev/sda
 EOF
+
 }
 
 function setup_module_run {

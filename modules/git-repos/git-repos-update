@@ -2,7 +2,7 @@
 
 TOOLS_DIR=/root/Tools
 
-for repo in 'PowerSploit exploit-database-bin-sploits'; do
+for repo in 'PowerSploit exploit-database-bin-sploits pentest-scripts nessrest'; do
 	cd ${TOOLS_DIR}/${repo}
 	git pull
 done

@@ -105,8 +105,8 @@ export linux_gfx_mode
 		insmod gzio
 		insmod part_msdos
 		insmod ext2
-		set root='hd0,msdos1'
-		echo	'Loading Linux 4.0.0-kali1-amd64 ...'
+		set root='hd0,gpt2'
+		echo	'Loading Linux ...'
 		linux	/boot/live/vmlinuz boot=live components noautologin fetch=http://10.10.2.1/live/filesystem.squashfs hooks=http://10.10.2.1/scripts/clone.sh
 		echo	'Loading initial ramdisk ...'
 		initrd	/boot/live/initrd.img
