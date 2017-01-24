@@ -1,0 +1,5 @@
+kali-desktop-gnome
+kali-linux-full
+keyboard-configuration
+wine32
+

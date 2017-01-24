@@ -1,0 +1,19 @@
+#!/bin/bash 
+
+UPDATE_SCRIPTS=/etc/update-all/update-scripts-apt.d
+
+DEBIAN_FRONTEND=noninteractive
+
+echo "Doing dist-upgrade"
+
+apt-get update
+apt-get -yq dist-upgrade
+	
+echo "Starting apt updates..."
+
+for update_script in ${UPDATE_SCRIPTS}/*; do
+    base=$(basename ${update_script})
+    echo -e "\tStarting ${base} update..."
+    "${update_script}"
+done
+

@@ -1,0 +1,2 @@
+bumblebee-nvidia nvidia-cuda-toolkit
+

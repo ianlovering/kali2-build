@@ -2,7 +2,6 @@
 
 INSTALL=${1}/chrome
 
-apt-get -yq install libappindicator1
 dpkg -i ${INSTALL}/google-chrome-stable_current_amd64.deb
 
 adduser --quiet --gecos "" --disabled-password chrome

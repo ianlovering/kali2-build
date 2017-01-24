@@ -1,0 +1,7 @@
+gdisk
+live-boot
+keyboard-configuration
+partclone
+cryptsetup
+lvm2
+linux-image-amd64

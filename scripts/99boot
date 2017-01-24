@@ -1,3 +1,0 @@
-Dpkg::Pre-Invoke {"mount /boot"};
-Dpkg::Post-Invoke {"umount /boot"};
-

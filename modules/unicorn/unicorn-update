@@ -1,5 +1,5 @@
 #!/bin/bash
 
 # Make sure kali not running?
-cd /opt/Unicorn
+cd /opt/unicorn
 git pull

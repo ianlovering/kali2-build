@@ -1,1 +1,0 @@
-BOOT_IMAGE=/boot/vmlinuz-3.16.0-4-amd64 root=UUID=f6ebb297-4236-463c-a38f-369a806de651 ro quiet restoretype=laptop

@@ -1,5 +1,0 @@
-[framework/core]
-prompt=%grn%T%yel (S:%cya%S%yel J:%cya%J %W%yel)%cya %D
-Prompttimeformat=%F %T
-
-[framework/ui/console]

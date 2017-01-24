@@ -1,0 +1,13 @@
+#!/bin/bash
+
+KALI_PACKAGES=/root/.mysettings/kali-packages.txt
+
+if [ -s ${KALI_PACKAGES} ]; then
+    apt-get -yq install $(< ${KALI_PACKAGES})
+fi
+
+for repo in '.mysettings Documents Tools/Tools'; do
+	cd /root/${repo}
+	git pull
+done
+

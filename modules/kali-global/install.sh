@@ -5,9 +5,5 @@ ldconfig
 
 cp vimrc /etc/vim
 
-mkdir -p /etc/update-all/update-scripts.d
-cp kali-update /etc/update-all/update-scripts.d/kali
-chmod 555 /etc/update-all/update-scripts.d/kali
-
 timedatectl set-ntp true
 

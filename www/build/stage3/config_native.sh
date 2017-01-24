@@ -1,1 +1,0 @@
-NAME_PREFIX=kali2_native

@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -x
+
+HOME=/root
 
 #set hostname
 echo 'astral-stalker' > /etc/hostname
@@ -10,37 +12,15 @@ THIRD=${1}/personal
 TOOLS_DIR=/root/Tools
 DOCS_DIR=/root/Documents
 
-export GIT_SSL_NO_VERIFY=true
-
 pushd /root
-expect -f ${THIRD}/expect-git-documents
-expect -f ${THIRD}/expect-git-root-settings
-#expect -f ${THIRD}/expect-git-chrome-settings
 
-pushd ${TOOLS_DIR}
-expect -f ${THIRD}/expect-git-tools
-pushd Tools
-git config http.sslVerify "false"
-popd
-popd
+export GIT_SSL_CAINFO=${THIRD}/ghost.bathouse.co.uk.pem
+export GIT_ASKPASS=${THIRD}/gitpass
 
-pushd ${DOCS_DIR}
-git config http.sslVerify "false"
-popd
+git clone https://ian@ghost.bathouse.co.uk/kali-settings-root.git .mysettings
 
 # link settings files
 ROOT_SETTINGS=/root/.mysettings
-pushd ${ROOT_SETTINGS}
-git config http.sslVerify "false"
-popd
-
-# install extra packages
-KALI_PACKAGES=${ROOT_SETTINGS}/kali-packages.txt
-if [ -s ${KALI_PACKAGES} ]; then
-    DEBIAN_PRIORITY=critical
-    apt-get -q update
-    apt-get -yq install $(< ${KALI_PACKAGES})
-fi
 
 ln -s ${ROOT_SETTINGS}/tmux.conf .tmux.conf
 
@@ -48,13 +28,16 @@ mkdir -p .config/terminator
 mkdir .msf4
 mkdir -p .java/.userPrefs
 
-ln -s ${ROOT_SETTINGS}/terminator-config .config/terminator/config
-ln -s ${ROOT_SETTINGS}/msf-config .msf4/config
-ln -s ${ROOT_SETTINGS}/gitconfig .gitconfig
-ln -s ${ROOT_SETTINGS}/burp .java/.userPrefs/burp
-rm /opt/nessus/var/nessus/master.key /opt/nessus/var/nessus/global.db /opt/nessus/etc/nessus/nessus-fetch.db
+rm -f .config/terminator/config; ln -s ${ROOT_SETTINGS}/terminator-config .config/terminator/config
+rm -f .msf4/config; ln -s ${ROOT_SETTINGS}/msf-config .msf4/config
+rm -f .gitconfig; ln -s ${ROOT_SETTINGS}/gitconfig .gitconfig
+rm -rf .java/.userPrefs/burp; ln -s ${ROOT_SETTINGS}/burp .java/.userPrefs/burp
+rm -f /opt/nessus/var/nessus/master.key /opt/nessus/var/nessus/global.db /opt/nessus/etc/nessus/nessus-fetch.db
 ln -s ${ROOT_SETTINGS}/nessus/master.key /opt/nessus/var/nessus/master.key
 ln -s ${ROOT_SETTINGS}/nessus/nessus-fetch.db /opt/nessus/etc/nessus/nessus-fetch.db
+
+git clone https://ian@ghost.bathouse.co.uk/Documents.git
+git clone https://ian@ghost.bathouse.co.uk/Tools.git Tools/Tools
 
 popd
 
@@ -104,4 +87,10 @@ gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
 
 # Set favourites
 gsettings set org.gnome.shell favorite-apps "['terminator.desktop', 'org.gnome.gedit.desktop', 'firefox-esr.desktop', 'google-chrome.desktop', 'kali-burpsuite-pro.desktop', 'kali-wireshark.desktop', 'org.gnome.Nautilus.desktop', 'shutter.desktop', 'vmware-workstation.desktop', 'quiet.desktop']"
+
+UPDATE_DIR=/etc/update-all/update-scripts-apt.d
+mkdir ${UPDATE_DIR}
+cp personal-update ${UPDATE_DIR}
+chmod 555 ${UPDATE_DIR}/personal-update
+
 

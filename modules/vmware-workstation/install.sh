@@ -4,7 +4,7 @@ WDIR=/tmp/vmware
 INSTALL=${1}/vmware-workstation
 
 LICENSE=$(cat ${INSTALL}/license)
-BUNDLE=${INSTALL}/VMware-Workstation-Full-12.5.0-4352439.x86_64.bundle
+BUNDLE=$(ls -rv ${INSTALL}/VMware-Workstation-*.bundle | xargs -n 1 | head -n 1)
 VMWARE_CONFIG=/etc/vmware/config
 
 mkdir -p ${WDIR}
@@ -28,11 +28,5 @@ PREFS_FOLDER=/root/.vmware/
 mkdir -p ${PREFS_FOLDER} 
 cp preferences ${PREFS_FOLDER}
 
-# Build modules
-cp vmware-patch.sh /usr/local/bin
-chmod 755 /usr/local/bin/vmware-patch.sh
-/usr/local/bin/vmware-patch.sh
-
-#sed -i 's/VMCI_CONFED = "yes"/VMCI_CONFED = "no"/' /etc/vmware/config
 #/usr/local/bin/vmware-modconfig --console --install-all
 
